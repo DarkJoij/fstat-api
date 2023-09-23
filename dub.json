@@ -1,0 +1,10 @@
+{
+	"authors": [
+		"DarkJoij"
+	],
+	"copyright": "Copyright 2023 DarkJoij",
+	"description": "FileStatistic D Language API.",
+	"license": "Apache-2.0",
+	"name": "fstat-api",
+	"targetType": "library"
+}
