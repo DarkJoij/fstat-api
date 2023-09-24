@@ -1,0 +1,5 @@
+{
+	"d": "dub build -debug",
+    "f": "dub build -release",
+	"t": "dub build -unittest"
+}
