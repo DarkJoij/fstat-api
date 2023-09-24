@@ -6,36 +6,26 @@ import std.format;
 import fstat_api.filesystem;
 
 public interface FileSystemContainerObject {
-public:
-    @property
-    FileSystemObject[] children();
-
-    @property
-    ulong length();
+// public:
+//     @property
+//     FileSystemObject[] children();
+// 
+//     @property
+//     ulong length();
 }
 
 public class FileSystemObject {
 public:
-    const string objectName;
-    const Size objectSize;
+    const string name;
+    const Size size;
 
     final this(string name, uint sizeInBytes) {
-        this.objectName = name;
-        this.objectSize = new Size(sizeInBytes);
-    }
-
-    @property
-    string name() {
-        return cast(string) objectName;
-    } 
-
-    @property
-    Size size() {
-        return cast(Size) objectSize;
+        this.name = name;
+        this.size = new Size(sizeInBytes);
     }
 
     override string toString() const {
-        return format("FileSystemObject(%s, %s)", objectName, objectSize);
+        return format("FileSystemObject(%s, %s)", name, size);
     }
 }
 
@@ -46,33 +36,22 @@ public:
     }
 }
 
-public final class StaticDirectory : FileSystemObject, FileSystemContainerObject {
-private:
-    const ulong childrenLength; 
-    const FileSystemObject[] childrenLockedArray;
-    
+public final class StaticDirectory : FileSystemObject, FileSystemContainerObject {   
 public:
+    const ulong length; 
+    const FileSystemObject[] children;
+
     final this(string name, uint sizeInBytes) {
         super(name, sizeInBytes);
 
-        this.childrenLength = 0;
-        this.childrenLockedArray = [];
+        this.length = 0;
+        this.children = [];
     }
 
     final this(string name, uint sizeInBytes, FileSystemObject[] childrenSeq...) {
         super(name, sizeInBytes);
         
-        this.childrenLockedArray = array(childrenSeq);
-        this.childrenLength = childrenLockedArray.length;
-    }
-
-    @property
-    override FileSystemObject[] children() {
-        return cast(FileSystemObject[]) childrenLockedArray;
-    }
-
-    @property
-    override ulong length() {
-        return cast(ulong) childrenLength;
+        this.children = array(childrenSeq);
+        this.length = children.length;
     }
 }
