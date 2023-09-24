@@ -7,11 +7,15 @@ import fstat_api.serve;
 public final class Size {
 private:    
     alias SizeT = Tuple!(uint, string);
+    Iter!(string) units = new Iter!(string)("B", "KB", "MB", "GB", "TB", /* "PB", "EB" */);
 
-    SizeT getNormalSize(uint /* Fix name: */ _sizeInBytes) {
-        // TODO: Release converter.
+    SizeT getNormalSize(uint size) {        
+        while (size / 1024 >= 1 && units.nextExists()) {
+            size = cast(uint) (size / 1024);
+            units.next();
+        }
 
-        return new Tuple!(uint, string)(0, "UB");
+        return new Tuple!(uint, string)(size, units.getCurrent());
     }
 
 public:
@@ -31,4 +35,11 @@ public:
     override string toString() const {
         return format("%d%s", outerSize, unit);
     }
+}
+
+unittest {
+    Size s = new Size(2048);
+
+    assert(s.outerSize == 2);
+    assert(s.unit == "KB");
 }

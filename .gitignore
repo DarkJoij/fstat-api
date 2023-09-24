@@ -13,7 +13,7 @@ fstat-api.a
 fstat-api.lib
 fstat-api-test-*
 dub.selections.json
-libfstat_api.a
+libfstat-api.a
 
 # File extensions:
 *.exe
